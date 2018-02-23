@@ -6,8 +6,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.NotEmpty;
 
+import javax.validation.Valid;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
 @Builder
 @Data
@@ -18,7 +20,14 @@ public class Person {
     @NotEmpty(message = "Name cant be null")
     private String name;
 
-    @Min(0)
-    @Max(100)
+    @Min(value = 0, message = "The minimum value allowed is 0")
+    @Max(value = 100, message = "The maximum value allowed is 100", groups = CompanyPerson.class)
     private Integer age;
+
+    @Valid
+    @NotNull
+    private Address address;
+
+    public interface CompanyPerson {}
+
 }
