@@ -1,6 +1,7 @@
 package com.learn.beanvalidation.beanvalidation.gateway.http.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.learn.beanvalidation.beanvalidation.gateway.http.to.GroupOfPersons;
 import com.learn.beanvalidation.beanvalidation.gateway.http.to.Person;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -45,6 +46,14 @@ public class SampleControllerTest {
         perform.andExpect(status().is4xxClientError());
         perform.andExpect(content().string(""));
 
+    }
+
+
+    @Test
+    public void shouldReturnBadRequestDueToNullGroupOfPersonsBody() {
+//        mockMvc.perform(post("/group"))
+
+        GroupOfPersons groupOfPersons = null;
     }
 
 
