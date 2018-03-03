@@ -41,7 +41,7 @@ public class GroupOfPersonsTest {
     }
 
     @Test
-    public void shouldCreateSuccessfullyAGRoupOfPerson() {
+    public void shouldCreateSuccessfullyAGroupOfPerson() {
         Person person1 = Person.builder()
                 .name("Sample name")
                 .age(10)
@@ -60,5 +60,28 @@ public class GroupOfPersonsTest {
 
         Set<ConstraintViolation<GroupOfPersons>> validate = validator.validate(build);
         BDDAssertions.then(validate).hasSize(0);
+    }
+
+    @Test
+    public void shouldValidateGroupOfPerson() {
+        Person person1 = Person.builder()
+                .name("Sample name")
+                .age(-1)
+                .address(Address.builder().streetName("Sample Name").build())
+                .build();
+
+        Person person2 = Person.builder()
+                .name("Another person name")
+                .age(10)
+                .address(Address.builder().streetName("Sample Name").build())
+                .build();
+
+        GroupOfPersons build = GroupOfPersons.builder()
+                .personCollections(Arrays.asList(person1, person2))
+                .build();
+
+        Set<ConstraintViolation<GroupOfPersons>> validate = validator.validate(build);
+        BDDAssertions.then(validate).hasSize(1);
+        BDDAssertions.then(validate.stream().findFirst().get().getMessage()).isEqualTo("The minimum value allowed is 0");
     }
 }
