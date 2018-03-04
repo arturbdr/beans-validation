@@ -84,4 +84,27 @@ public class GroupOfPersonsTest {
         BDDAssertions.then(validate).hasSize(1);
         BDDAssertions.then(validate.stream().findFirst().get().getMessage()).isEqualTo("The minimum value allowed is 0");
     }
+
+    @Test
+    public void shouldValidateGroupOfPersonWithTwoInvalidPersons() {
+        Person person1 = Person.builder()
+                .name("Sample name")
+                .age(-1)
+                .address(Address.builder().streetName("Sample Name").build())
+                .build();
+
+        Person person2 = Person.builder()
+                .name("Another person name")
+                .age(-5)
+                .address(Address.builder().streetName("Sample Name").build())
+                .build();
+
+        GroupOfPersons build = GroupOfPersons.builder()
+                .personCollections(Arrays.asList(person1, person2))
+                .build();
+
+        Set<ConstraintViolation<GroupOfPersons>> validate = validator.validate(build);
+        BDDAssertions.then(validate).hasSize(2);
+        BDDAssertions.then(validate.stream().findFirst().get().getMessage()).isEqualTo("The minimum value allowed is 0");
+    }
 }
