@@ -37,7 +37,7 @@ public class SampleController {
     }
 
     @PostMapping(value = "groupwithcollection", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity validateCollection(@RequestBody @NotNull Collection<Person> groupOfPersons) throws JsonProcessingException {
+    public ResponseEntity validateCollection(@RequestBody @NotNull Collection<Person> groupOfPersons) {
 
         Set<Set<ConstraintViolation<Person>>> collect = groupOfPersons
                 .stream()
