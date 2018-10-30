@@ -1,6 +1,5 @@
 package com.learn.beanvalidation.beanvalidation.gateway.http.to;
 
-import org.assertj.core.api.BDDAssertions;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,6 +10,8 @@ import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 import java.util.Set;
+
+import static org.assertj.core.api.BDDAssertions.then;
 
 @RunWith(SpringRunner.class)
 public class PersonTest {
@@ -31,8 +32,8 @@ public class PersonTest {
                 .build();
 
         Set<ConstraintViolation<Person>> validate = validator.validate(invalidPersonName);
-        BDDAssertions.then(validate).hasSize(1);
-        BDDAssertions.then(validate.stream().findFirst().get().getMessage()).isEqualTo("Name cant be null");
+        then(validate).hasSize(1);
+        then(validate.stream().findFirst().get().getMessage()).isEqualTo("Name cant be null");
     }
 
     @Test
@@ -43,8 +44,8 @@ public class PersonTest {
                 .age(-1)
                 .build();
         Set<ConstraintViolation<Person>> validate = validator.validate(invalidPersonName);
-        BDDAssertions.then(validate).hasSize(1);
-        BDDAssertions.then(validate.stream().findFirst().get().getMessage()).isEqualTo("The minimum value allowed is 0");
+        then(validate).hasSize(1);
+        then(validate.stream().findFirst().get().getMessage()).isEqualTo("The minimum value allowed is 0");
     }
 
     @Test
@@ -54,8 +55,8 @@ public class PersonTest {
                 .age(101)
                 .build();
         Set<ConstraintViolation<Person>> validate = validator.validate(invalidPersonName, Person.CompanyPerson.class);
-        BDDAssertions.then(validate).hasSize(1);
-        BDDAssertions.then(validate.stream().findFirst().get().getMessage()).isEqualTo("The maximum value allowed is 100");
+        then(validate).hasSize(1);
+        then(validate.stream().findFirst().get().getMessage()).isEqualTo("The maximum value allowed is 100");
     }
 
     @Test
@@ -64,8 +65,8 @@ public class PersonTest {
                 .address(Address.builder().streetName("").build())
                 .build();
         Set<ConstraintViolation<Address>> validate = validator.validate(invalidPersonName.getAddress());
-        BDDAssertions.then(validate).hasSize(1);
-        BDDAssertions.then(validate.stream().findFirst().get().getMessage()).isEqualTo("Street name cant be empty");
+        then(validate).hasSize(1);
+        then(validate.stream().findFirst().get().getMessage()).isEqualTo("Street name cant be empty");
     }
 
     @Test
@@ -75,8 +76,8 @@ public class PersonTest {
                 .address(Address.builder().streetName("").build())
                 .build();
         Set<ConstraintViolation<Person>> validate = validator.validate(invalidPersonName);
-        BDDAssertions.then(validate).hasSize(1);
-        BDDAssertions.then(validate.stream().findFirst().get().getMessage()).isEqualTo("Street name cant be empty");
+        then(validate).hasSize(1);
+        then(validate.stream().findFirst().get().getMessage()).isEqualTo("Street name cant be empty");
     }
 
     @Test
@@ -86,8 +87,8 @@ public class PersonTest {
                 .address(Address.builder().streetName("Sample Name").build())
                 .build();
         Set<ConstraintViolation<Person>> validate = validator.validate(invalidPersonName, Address.AddressUSA.class);
-        BDDAssertions.then(validate).hasSize(1);
-        BDDAssertions.then(validate.stream().findFirst().get().getMessage()).isEqualTo("USA Addresses require zipcode");
+        then(validate).hasSize(1);
+        then(validate.stream().findFirst().get().getMessage()).isEqualTo("USA Addresses require zipcode");
     }
 
 

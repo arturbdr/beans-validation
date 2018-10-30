@@ -4,11 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Builder
@@ -17,7 +17,7 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 public class Person {
 
-    @NotEmpty(message = "Name cant be null")
+    @NotBlank(message = "Name cant be null")
     private String name;
 
     @Min(value = 0, message = "The minimum value allowed is 0")
@@ -28,6 +28,7 @@ public class Person {
     @NotNull
     private Address address;
 
-    public interface CompanyPerson {}
+    public interface CompanyPerson {
+    }
 
 }
