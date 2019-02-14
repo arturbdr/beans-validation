@@ -3,6 +3,7 @@ package com.learn.beanvalidation.beanvalidation.gateway.http.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.learn.beanvalidation.beanvalidation.gateway.http.to.GroupOfPersons;
 import com.learn.beanvalidation.beanvalidation.gateway.http.to.Person;
+import org.assertj.core.api.BDDAssertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,12 +12,14 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
 
 import java.util.Arrays;
 import java.util.Collection;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -26,15 +29,16 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class SampleControllerTest {
 
     @Autowired
-    MockMvc mockMvc;
+    private MockMvc mockMvc;
 
     @Autowired
-    ObjectMapper objectMapper;
+    private ObjectMapper objectMapper;
 
     @Test
     public void shouldReturnBadRequestDueToNullBody() throws Exception {
         mockMvc.perform(
                 post("/"))
+                .andDo(print())
                 .andExpect(status().is4xxClientError());
     }
 
@@ -44,12 +48,16 @@ public class SampleControllerTest {
                 .age(10)
                 .build();
 
-        mockMvc.perform(
+        MvcResult mvcResult = mockMvc.perform(
                 post("/")
                         .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
                         .content(objectMapper.writeValueAsString(person)))
+                .andDo(print())
                 .andExpect(status().is4xxClientError())
-                .andExpect(content().string(""));
+                .andReturn();
+
+        String actualResponseBody = mvcResult.getResponse().getContentAsString();
+        BDDAssertions.then(actualResponseBody).contains("\"fieldName\":\"name\",\"inputValue\":null,\"rejectReason\":\"Name cant be null\"");
     }
 
 
