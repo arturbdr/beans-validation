@@ -1,7 +1,5 @@
 package com.learn.beanvalidation.beanvalidation.gateway.http.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.learn.beanvalidation.beanvalidation.gateway.http.to.GroupOfPersons;
 import com.learn.beanvalidation.beanvalidation.gateway.http.to.Person;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +22,6 @@ import java.util.stream.Collectors;
 public class SampleController {
 
     private final Validator validator;
-    private final ObjectMapper objectMapper;
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity validateMyBean(@RequestBody @Valid @NotNull Person person) {
@@ -37,7 +34,7 @@ public class SampleController {
     }
 
     @PostMapping(value = "groupwithcollection", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity validateCollection(@RequestBody @NotNull Collection<Person> groupOfPersons) throws JsonProcessingException {
+    public ResponseEntity validateCollection(@RequestBody @NotNull Collection<Person> groupOfPersons) {
 
         Set<Set<ConstraintViolation<Person>>> collect = groupOfPersons
                 .stream()
