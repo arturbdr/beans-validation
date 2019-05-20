@@ -2,8 +2,8 @@ package com.learn.beanvalidation.beanvalidation.gateway.http.controller;
 
 import com.learn.beanvalidation.beanvalidation.gateway.http.to.GroupOfPersons;
 import com.learn.beanvalidation.beanvalidation.gateway.http.to.Person;
+import com.learn.beanvalidation.beanvalidation.gateway.http.to.SimpleReturn;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,34 +15,60 @@ import java.util.Collection;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE;
+
 @RestController
 @RequiredArgsConstructor
 public class SampleController {
 
+    /**
+     * Testing the CORS using the browser:
+     *
+     * fetch("https://XXXX/corsEnabled", {
+     *   "headers" : {
+     *     'Access-Control-Allow-Origin': 'x-requested-with '
+     *    },
+     *   mode: 'no-cors'
+     * }).
+     * then(res => res.json())
+     * .then(console.log)
+     *
+     *
+     *
+     * fetch("https://XXXX/corsDisabled", {
+     *   "headers" : {
+     *     'Access-Control-Allow-Origin': 'x-requested-with '
+     *    },
+     *   mode: 'cors'
+     * }).
+     * then(res => res.json())
+     * .then(console.log)
+     */
+
     private final Validator validator;
 
-    @GetMapping
-    public ResponseEntity<String> helloBeansValidationWithCorsEnabled() {
-        return ResponseEntity.ok("Cors is Enabled here");
+    @GetMapping(value = "/corsEnabled", produces = APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<SimpleReturn> helloBeansValidationWithCorsEnabled() {
+        return ResponseEntity.ok(SimpleReturn.builder().message("Cors is Enabled here").build());
     }
 
-    @GetMapping
+    @GetMapping(value = "/corsDisabled", produces = APPLICATION_JSON_UTF8_VALUE)
     @CrossOrigin
-    public ResponseEntity<String> helloBeansValidationWithCorsDisabled() {
-        return ResponseEntity.ok("Cors is DISABLED here");
+    public ResponseEntity<SimpleReturn> helloBeansValidationWithCorsDisabled() {
+        return ResponseEntity.ok(SimpleReturn.builder().message("Cors is DISABLED here").build());
     }
 
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @PostMapping(consumes = APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity validateMyBean(@RequestBody @Valid @NotNull Person person) {
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping(value = "group", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @PostMapping(value = "group", consumes = APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity validateMyGroupBean(@RequestBody @Valid @NotNull final GroupOfPersons groupOfPersons) {
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping(value = "groupwithcollection", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @PostMapping(value = "groupwithcollection", consumes = APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity validateCollection(@RequestBody @NotNull Collection<Person> groupOfPersons) {
 
         Set<Set<ConstraintViolation<Person>>> collect = groupOfPersons
