@@ -5,9 +5,7 @@ import com.learn.beanvalidation.beanvalidation.gateway.http.to.Person;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Valid;
@@ -22,6 +20,17 @@ import java.util.stream.Collectors;
 public class SampleController {
 
     private final Validator validator;
+
+    @GetMapping
+    public ResponseEntity<String> helloBeansValidationWithCorsEnabled() {
+        return ResponseEntity.ok("Cors is Enabled here");
+    }
+
+    @GetMapping
+    @CrossOrigin
+    public ResponseEntity<String> helloBeansValidationWithCorsDisabled() {
+        return ResponseEntity.ok("Cors is DISABLED here");
+    }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity validateMyBean(@RequestBody @Valid @NotNull Person person) {
