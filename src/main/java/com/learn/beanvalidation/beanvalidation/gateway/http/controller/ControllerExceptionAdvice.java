@@ -1,6 +1,5 @@
 package com.learn.beanvalidation.beanvalidation.gateway.http.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.learn.beanvalidation.beanvalidation.gateway.http.to.Error;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
