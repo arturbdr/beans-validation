@@ -1,9 +1,9 @@
 package com.learn.beanvalidation.beanvalidation.gateway.http.to;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
@@ -13,19 +13,19 @@ import java.util.Set;
 
 import static org.assertj.core.api.BDDAssertions.then;
 
-@RunWith(SpringRunner.class)
-public class PersonTest {
+@ExtendWith(SpringExtension.class)
+class PersonTest {
 
     private static Validator validator;
 
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         validator = factory.getValidator();
     }
 
     @Test
-    public void shouldCheckInvalidPersonName() {
+    void shouldCheckInvalidPersonName() {
         Person invalidPersonName = Person.builder()
                 .address(Address.builder().streetName("Teste").build())
                 .name("")
@@ -37,7 +37,7 @@ public class PersonTest {
     }
 
     @Test
-    public void shouldCheckInvalidPersonMinAge() {
+    void shouldCheckInvalidPersonMinAge() {
         Person invalidPersonName = Person.builder()
                 .address(Address.builder().streetName("Teste").build())
                 .name("Any")
@@ -49,7 +49,7 @@ public class PersonTest {
     }
 
     @Test
-    public void shouldCheckGroupdValidationForInvalidPersonMaxAge() {
+    void shouldCheckGroupdValidationForInvalidPersonMaxAge() {
         Person invalidPersonName = Person.builder()
                 .name("Any")
                 .age(101)
@@ -60,7 +60,7 @@ public class PersonTest {
     }
 
     @Test
-    public void shouldCheckForInvalidAddress() {
+    void shouldCheckForInvalidAddress() {
         Person invalidPersonName = Person.builder()
                 .address(Address.builder().streetName("").build())
                 .build();
@@ -70,7 +70,7 @@ public class PersonTest {
     }
 
     @Test
-    public void shouldCheckForInvalidNestedAddress() {
+    void shouldCheckForInvalidNestedAddress() {
         Person invalidPersonName = Person.builder()
                 .name("Sample name")
                 .address(Address.builder().streetName("").build())
@@ -81,7 +81,7 @@ public class PersonTest {
     }
 
     @Test
-    public void shouldCheckForInvalidNestedAddressGroupValidation() {
+    void shouldCheckForInvalidNestedAddressGroupValidation() {
         Person invalidPersonName = Person.builder()
                 .name("Sample name")
                 .address(Address.builder().streetName("Sample Name").build())
