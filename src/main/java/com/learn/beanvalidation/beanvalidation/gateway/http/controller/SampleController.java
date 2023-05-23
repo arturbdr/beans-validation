@@ -3,14 +3,14 @@ package com.learn.beanvalidation.beanvalidation.gateway.http.controller;
 import com.learn.beanvalidation.beanvalidation.gateway.http.to.GroupOfPersons;
 import com.learn.beanvalidation.beanvalidation.gateway.http.to.Person;
 import com.learn.beanvalidation.beanvalidation.gateway.http.to.SimpleReturn;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.Valid;
+import jakarta.validation.Validator;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.ConstraintViolation;
-import javax.validation.Valid;
-import javax.validation.Validator;
-import javax.validation.constraints.NotNull;
 import java.util.Collection;
 import java.util.Set;
 import java.util.stream.Collectors;
