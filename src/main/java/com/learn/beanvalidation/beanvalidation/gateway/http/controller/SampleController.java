@@ -58,7 +58,7 @@ public class SampleController {
         return ResponseEntity.ok(SimpleReturn.builder().message("Cors is DISABLED here").build());
     }
 
-    @PostMapping(consumes = APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/", consumes = APPLICATION_JSON_VALUE)
     public ResponseEntity validateMyBean(@RequestBody @Valid @NotNull Person person) {
         return ResponseEntity.ok().build();
     }

@@ -17,6 +17,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import java.util.Arrays;
 import java.util.Collection;
 
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -56,7 +57,7 @@ class SampleControllerTest {
                 .andReturn();
 
         String actualResponseBody = mvcResult.getResponse().getContentAsString();
-        BDDAssertions.then(actualResponseBody).contains("\"fieldName\":\"name\",\"inputValue\":null,\"rejectReason\":\"Name cant be null\"");
+        then(actualResponseBody).contains("\"fieldName\":\"name\",\"inputValue\":null,\"rejectReason\":\"Name cant be null\"");
     }
 
 
