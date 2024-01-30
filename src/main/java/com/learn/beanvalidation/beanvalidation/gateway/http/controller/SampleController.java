@@ -8,6 +8,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.Validator;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,7 +20,9 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RestController
 @RequiredArgsConstructor
+@Slf4j
 public class SampleController {
+
 
     /**
      * Testing the CORS using the browser:
@@ -82,5 +85,11 @@ public class SampleController {
 
         }
         return ResponseEntity.ok().build();
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<String> handleIllegalArgumentException(Exception ex) {
+        log.error("Illegal argument error", ex);
+        return ResponseEntity.badRequest().body(ex.getMessage());
     }
 }

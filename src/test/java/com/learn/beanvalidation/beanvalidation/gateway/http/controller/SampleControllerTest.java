@@ -53,7 +53,7 @@ class SampleControllerTest {
                         .contentType(APPLICATION_JSON_VALUE)
                         .content(objectMapper.writeValueAsString(person)))
                 .andDo(print())
-                .andExpect(status().is4xxClientError())
+                .andExpect(status().isBadRequest())
                 .andReturn();
 
         String actualResponseBody = mvcResult.getResponse().getContentAsString();
