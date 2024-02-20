@@ -1,6 +1,7 @@
 package com.learn.beanvalidation.beanvalidation.gateway.http.controller;
 
 import com.learn.beanvalidation.beanvalidation.gateway.http.to.GroupOfPersons;
+import com.learn.beanvalidation.beanvalidation.gateway.http.to.LombokAnnotations;
 import com.learn.beanvalidation.beanvalidation.gateway.http.to.Person;
 import com.learn.beanvalidation.beanvalidation.gateway.http.to.SimpleReturn;
 import jakarta.validation.ConstraintViolation;
@@ -92,4 +93,20 @@ public class SampleController {
         log.error("Illegal argument error", ex);
         return ResponseEntity.badRequest().body(ex.getMessage());
     }
+
+    @GetMapping
+    public ResponseEntity<String> justTest() {
+        LombokAnnotations instance = LombokAnnotations.builder()
+                .name("some name")
+                .email("some email")
+                .password("some password")
+                .confirmPassword("some password")
+                .phone("some phone")
+                .address("some address")
+                .city("some city")
+                .build();
+        log.info(instance.toString());
+        return ResponseEntity.ok().build();
+    }
+
 }
